@@ -1,66 +1,45 @@
-# HackiOS website
+# HakiOS website
 
-Next.js 15 (App Router, TypeScript) site for HackiOS by OOSEX GANG.
-Four languages (`/en`, `/ru`, `/uk`, `/zh`, English by default), a live Telegram subscriber counter,
-a 3D dot-matrix Oosy (three.js), press kit downloads and SEO metadata.
+The project's site: what HakiOS is and what works, the documentation, and the FAQ, in English, Russian, Ukrainian and Chinese.
+Next.js 15 (App Router, TypeScript), rendered to static pages at build time.
 
-## Run locally
+| Page | What |
+|---|---|
+| `/<lang>` | the project, the status of each device, how it fits together, the repositories, the team, the press kit; the community token last, folded |
+| `/<lang>/docs/...` | the documentation of the [hakios](https://github.com/oosexgang/hakios) repository, with a table of contents |
+| `/<lang>/faq` | the questions people ask, answered short |
+
+## Run it
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
+npm run dev          # http://localhost:3000
+npm run build && node .next/standalone/server.js     # production (output: standalone)
 ```
 
-Production build:
+## The documentation
+
+The pages are the hakios repository's `docs/`, copied into `content/docs/`:
 
 ```bash
-npm run build
-npm start          # http://localhost:3000
+npm run docs                     # from ../hakios
+npm run docs -- /path/to/hakios
 ```
 
-`/?still` (or `/en?still`) turns the preloader and heading animations off, which is handy for screenshots.
+The copy is committed, so that the site builds without the hakios repository beside it. Links between pages become links between
+the site's pages, a link to a file of the repository goes to GitHub, and headings get the anchors GitHub gives them: a link that
+works in the repository works here (the hakios repository's `tools/docs-check.py` checks them). The order of the sidebar is
+`lib/docs-nav.ts`.
 
 ## Where to change things
 
 | What | File |
 |---|---|
-| GitHub link (header button, footer) | `lib/site.ts` → `GITHUB_URL`, or env `NEXT_PUBLIC_GITHUB_URL` |
-| Site address (canonical, OG, sitemap) | env `NEXT_PUBLIC_SITE_URL` |
-| Team, token, press kit list | `lib/site.ts` |
-| All texts in 4 languages | `lib/dict.ts` |
-| Styles | `app/globals.css` |
-| Page sections | `app/[locale]/page.tsx` |
-| 3D mascot | `components/Mascot.tsx` |
-| Share image, icons | `app/[locale]/opengraph-image.png`, `icon.png`, `apple-icon.png` |
-| Press kit files, teaser video | `public/press/`, `public/media/` |
+| texts in four languages, the FAQ, the status table | `lib/dict.ts` |
+| GitHub link, Telegram, team, repositories, token, press kit | `lib/site.ts` (or `NEXT_PUBLIC_GITHUB_URL`, `NEXT_PUBLIC_SITE_URL`) |
+| the documentation's sidebar | `lib/docs-nav.ts` |
+| styles | `app/globals.css` |
+| the logo | `components/Logo.tsx` (the mark: a lowercase h and a red dot; the wordmark: hakios and the dot); `public/press/hakios-mark.svg`, `hakios-logo.svg` |
+| icons, share image | `app/[locale]/icon.svg`, `apple-icon.tsx`, `opengraph-image.tsx`; the PNG icons: `npm run brand` (`scripts/brand.py`) |
 
-Copy `.env.example` to `.env.local` for local values.
-
-## Server side
-
-- `GET /api/telegram` returns `{ channel, subscribers }`, read from the public t.me page and cached for 30 minutes.
-- The page is rendered on the server and re-generated every 30 minutes (ISR), so the counter stays fresh without a database.
-- Add your own endpoints as `app/api/<name>/route.ts`.
-
-## Deploy
-
-**Vercel (simplest).** Push this folder to GitHub, import the repo at vercel.com/new, set
-`NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_GITHUB_URL` in Project → Settings → Environment Variables, deploy.
-Then Project → Settings → Domains → add your domain and copy the DNS records Vercel shows.
-
-**Your own server (VPS).**
-
-```bash
-docker build -t hackios-web \
-  --build-arg NEXT_PUBLIC_SITE_URL=https://your-domain.com \
-  --build-arg NEXT_PUBLIC_GITHUB_URL=https://github.com/oosexgang .
-docker run -d --restart unless-stopped -p 3000:3000 hackios-web
-```
-
-Put Caddy or Nginx in front for HTTPS. With Caddy the whole config is:
-
-```
-your-domain.com {
-    reverse_proxy localhost:3000
-}
-```
+Copy `.env.example` to `.env.local` for local values. The Docker image (`Dockerfile`) runs the standalone server.

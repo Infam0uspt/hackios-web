@@ -6,7 +6,7 @@ export async function getTelegramSubscribers(): Promise<number> {
   try {
     const res = await fetch(TELEGRAM.url, {
       next: { revalidate: 1800 },
-      headers: { "user-agent": "Mozilla/5.0 (compatible; HackiOSBot/1.0)" },
+      headers: { "user-agent": "Mozilla/5.0 (compatible; HakiOSBot/1.0)" },
     });
     if (!res.ok) return TELEGRAM.fallbackSubscribers;
     const html = await res.text();

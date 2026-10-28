@@ -1,10 +1,12 @@
 // Everything about the project that is not translated lives here.
 
-// ↓↓↓ Paste your GitHub link here (or set NEXT_PUBLIC_GITHUB_URL in the hosting dashboard).
-export const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL || "https://github.com/oosexgang";
+// The project's code. NEXT_PUBLIC_GITHUB_URL in the hosting dashboard overrides it.
+export const GITHUB_URL = process.env.NEXT_PUBLIC_GITHUB_URL || "https://github.com/oosexgang/hakios";
+// where a link of the documentation to a file of the repository (not a page) goes
+export const REPO_FILES = `${GITHUB_URL}/blob/main/`;
 
 // The public address of the site. Used for canonical URLs, Open Graph tags and the sitemap.
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://hackios.example").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://hakios.example").replace(/\/$/, "");
 
 export const TELEGRAM = {
   channel: "oosexgangdevs",
@@ -24,6 +26,15 @@ export const TEAM: Member[] = [
   { handle: "hxfuxyyXD", country: "UA", role: "team" },
 ];
 
+// The repositories, as the documentation's "How the repositories fit" describes them.
+const GH = "https://github.com/oosexgang/";
+export const REPOS = [
+  { name: "hakios", url: `${GH}hakios`, key: "common" },
+  { name: "hakios-sm7325", url: `${GH}hakios-sm7325`, key: "device" },
+  { name: "hakios-uefi", url: `${GH}hakios-uefi`, key: "uefi" },
+] as const;
+
+// The community token keeps the ticker it was issued with on chain.
 export const TOKEN = {
   ticker: "$HackiOS",
   network: "BNB Chain",
@@ -34,10 +45,7 @@ export const TOKEN = {
 };
 
 export const PRESS = [
-  { file: "hackios-icon.png", size: "1024×1024", key: "icon_dark" },
-  { file: "hackios-icon-red.png", size: "1024×1024", key: "icon_red" },
-  { file: "oosy-avatar.png", size: "1024×1024", key: "avatar" },
-  { file: "hackios-x-header.png", size: "1500×500", key: "x_header" },
-  { file: "hackios-og.png", size: "1200×630", key: "og" },
-  { file: "hackios-github-git.png", size: "1000×1000", key: "github" },
+  { file: "hakios-mark.svg", key: "mark" },
+  { file: "hakios-mark.png", key: "markpng" },
+  { file: "hakios-logo.svg", key: "logo" },
 ] as const;

@@ -1,4 +1,4 @@
-# Production image for HackiOS (Next.js standalone output).
+# Production image for HakiOS (Next.js standalone output).
 FROM node:22-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
